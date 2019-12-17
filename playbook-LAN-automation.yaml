@@ -1,0 +1,95 @@
+# Playbooks are YAML documents that contain a set of tasks to be performed by Ansible
+# In Ansible, each playbook is made up of one or more plays
+# IOS XE modules can be found here https://docs.ansible.com/ansible/latest/modules/list_of_network_modules.html#ios
+
+# sh run | begin 2/0/1
+
+## Play : Deploy LAN automation
+- name: Sample IOS config for LAN automation for underlay configuration with Ansible 2.8
+  hosts: access
+  gather_facts: no
+
+# ## TASK 1 : Configure IS-IS
+  tasks:
+  - name: Configure global IS-IS
+    ios_config:
+      lines:
+        - net {{ isis.net }}
+        - domain-password {{ isis.pass }}
+        - metric-style wide
+        - log-adjacency-changes
+        - nsf ietf
+        - bfd all-interfaces
+      parents: router isis
+
+# ## TASK 2 : Configure the Loopback interface
+  - name: Configure Loopback interface
+    ios_config:
+      lines:
+        - description {{ item.description }}
+        - ip address {{ item.ip }} {{ item.netmask }}
+        - ip pim sparse-mode
+        - ip router isis
+        - clns mtu 1400
+      parents: int {{item.name}}
+    loop: "{{ loopbacks }}"
+
+# ## TASK 3 : Configure Device Tracking Globally
+  - name: Configure Device Tracking Globally
+    ios_config:
+      lines:
+        - no device-tracking logging theft
+        - device-tracking tracking
+
+# ## TASK 4 : Configure Device Tracking Policy
+  - name: Configure device-tracking policy
+    ios_config:
+      lines:
+        - limit address-count 10
+        - no protocol udp
+        - tracking enable
+      parents: device-tracking policy IPDT_MAX_10
+
+# ## TASK 5 : Enable Device Tracking on each GigabitEthernet interface
+  - name: Configure device-tracking policy on interfaces
+    ios_config:
+      lines:
+        - device-tracking attach-policy IPDT_MAX_10
+      parents: int {{access_interfaces.int}}
+    with_sequence: "start=1 count=48"
+
+
+# ## TASK 4 : Enable Netconf-Yang
+#   - name: Enable Netconf-YANG
+#     ios_config:
+#       lines:
+#         - netconf-yang
+
+  # - name: Configure Spanning-tree
+  #   ios_config:
+  #     lines:
+  #       - spanning-tree mode rapid-pvst
+  #       - spanning-tree extend system-id
+
+
+    # - name: Get interfaces
+    #   ios_facts:
+    #     gather_subset: all
+    #   register: interfaces
+    #
+    # - name: Register RET_interfaces
+    #   set_fact:
+    #     RET_interfaces: []
+    #
+    # - name: Register List from interfaces
+    #   set_fact:
+    #     RET_interfaces: "{{ RET_interfaces + [ item.key ] }}"
+    #   loop: "{{ lookup('dict',interfaces['ansible_facts']['ansible_net_interfaces']) }}"
+    #
+    # - name: Enable Device Tracking on interfaces
+    #   ios_config:
+    #     lines:
+    #       - device-tracking attach-policy IPDT_MAX_10
+    #     parents: int {{ item }}
+    #   loop: "{{ RET_interfaces }}"
+    #   when: item is match("GigabitEthernet2.*")

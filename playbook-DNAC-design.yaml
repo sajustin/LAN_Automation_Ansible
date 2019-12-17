@@ -1,0 +1,79 @@
+
+
+
+- name: test my new module
+  connection: local
+  hosts: localhost
+  gather_facts: false
+  no_log: true
+
+  tasks:
+  - name: set the banner
+    dnac_banner:
+      host: 10.48.98.46
+      port: 443
+      username: admin
+      password: C1sco123!
+      banner_message: "created by a new ansible module for banners"
+
+  - name: set the timezone
+    dnac_timezone:
+      host: 10.48.98.46
+      port: 443
+      username: admin
+      password: C1sco123!
+      timezone: Europe/Amsterdam
+
+
+  # - name: set the ntp server
+  #   dnac_ntp:
+  #     host: 10.48.98.46
+  #     port: 443
+  #     username: admin
+  #     password: C1sco123!
+  #     ntp_server: 110.8.1.1
+  #
+  # - name: set the dhcp server
+  #   dnac_dhcp:
+  #     host: 10.48.98.46
+  #     port: 443
+  #     username: admin
+  #     password: C1sco123!
+  #     dhcp_server: 10.8.1.210
+  #
+  #
+  # - name: set the dns server and domain name
+  #   dnac_dns:
+  #     host: 10.48.98.46
+  #     port: 443
+  #     username: admin
+  #     password: C1sco123!
+  #     primary_dns_server: 10.8.1.210
+  #     secondary_dns_server: 10.8.1.211
+  #     domain_name: en.local
+  #
+  # - name: set the syslog server
+  #   dnac_syslog:
+  #     host: 10.48.98.46
+  #     port: 443
+  #     username: admin
+  #     password: C1sco123!
+  #     syslog_server: 10.8.1.210
+  #
+  # - name: set the snmp server
+  #   dnac_snmp:
+  #     host: 10.48.98.46
+  #     port: 443
+  #     username: admin
+  #     password: C1sco123!
+  #     snmp_server: 172.31.3.237
+  #
+  # - name: set the netflow
+  #   dnac_netflow:
+  #     host: 10.48.98.46
+  #     port: 443
+  #     username: admin
+  #     password: C1sco123!
+  #     netflow_collector: 172.31.3.237
+  #     netflow_port: 6007
+  #

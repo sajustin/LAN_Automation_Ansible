@@ -1,0 +1,80 @@
+
+# Playbooks are YAML documents that contain a set of tasks to be performed by Ansible
+# In Ansible, each playbook is made up of one or more plays
+# IOS XE modules can be found here https://docs.ansible.com/ansible/latest/modules/list_of_network_modules.html#ios
+
+
+# Sample IOS config for Ansible 2.8
+
+## Play 1: Create VLANs
+
+- name: Create VLANs
+  hosts: distribution
+  gather_facts: no
+
+  ## different set of task
+  tasks:
+    ## create VLANs with the ios_vlan module
+  - name: Create vlan
+    ios_vlan:
+      vlan_id: '{{ item.id }}'
+      name: '{{ item.name }}'
+      state: present
+    loop: '{{ vlans }}'
+
+## Play 2: Configure interfaces
+- name: Configure access interfaces
+  hosts: distribution
+  gather_facts: no
+
+  tasks:
+  - name: Clear int
+    ios_config:
+      lines:
+        - default int {{ item.int}}
+    loop: '{{ access_interface }}'
+
+  - name: Configure l2 interface
+    ios_config:
+      lines:
+        - switchport mode access
+        - switchport access vlan {{ item.vlan }}
+      parents: int {{ item.int }}
+    loop: '{{ access_interface }}'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### create VLANs with the ios_config module
+# - name: Create VLAN
+#   ios_config:
+#     lines:
+#       - vlan '{{ item.id }}'
+#   loop: '{{ vlans }}'
+#
+#     ## configure VLANs with the ios_config module
+# - name: Configure VLAN name
+#   ios_config:
+#     lines:
+#       - name {{ item.name }}
+#     parents: vlan {{ item.id }}
+#   loop: '{{ vlans }}'

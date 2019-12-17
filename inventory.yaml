@@ -1,0 +1,56 @@
+
+
+# Within the inventory file, there are two primary components.
+# The first is host definitions. Host definitions are used to define each individual
+# host that will be managed as part of that inventory.
+
+all:
+  hosts:
+    LON-edge-2:
+      ansible_host: 10.11.0.69
+    LON-edge-1:
+      ansible_host: 10.11.0.68
+  vars:
+    ansible_user: dnac
+    ansible_password: C1sco123!
+    ansible_connection: network_cli
+    ansible_network_os: ios
+    ansible_become: yes
+    ansible_become_method: enable
+    ansible_become_pass: C1sco123!
+    ansible_python_interpreter: /usr/bin/python3
+
+# Ansible makes use of groups to simplify management of infrastructure.
+# Within an inventory file, users can define hosts within one or more groups.
+
+distribution: # group
+  hosts: # hosts
+    LON-edge-2: ''
+  vars:
+    vlans:
+    - id: 701
+      name: Ansible_Employees
+    - id: 702
+      name: Ansible_Voice
+    access_interface:
+    - int: Te2/1/7
+      vlan: 701
+    - int: Te2/1/8
+      vlan: 702
+
+access:
+  hosts:
+    LON-edge-2: ''
+  vars:
+    isis:
+      net: 49.0000.0100.1100.0069.00
+      pass: C1sco123!
+
+    loopbacks:
+    - name: Loopback0
+      description: Fabric Node Router ID
+      ip: 10.11.0.69
+      netmask: 255.255.255.255
+
+    access_interfaces:
+      int: "GigabitEthernet2/0/{{ item }}"
