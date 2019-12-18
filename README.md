@@ -18,9 +18,26 @@ A workstation running Linux or OSX. Although it can be used to manage Windows, A
 
 The following list describes more useful CLI tools that Ansible provides:
 
-* The ansible CLI tool runs modules against targeted hosts. This is commonly referred to as the ad-hoc CLI. Engineers can run tasks against targeted hosts without creating playbooks containing Ansible DSL.
-* **Run a Playbook:**  ```linux-VM$ ansible-playbook```
-* **Encrypt sensitive data:** ```linux-VM$ ansible-vault``` If a playbook requires access to data that engineers do not want to expose in plain text, the ansible-vault tool can be used to create an encrypted YAML file containing the sensitive data. When data needs to be accessed, a password is provided.
-* **Pull modules from centralized server:** ```linux-VM$ ansible-pull``` (Normally, Ansible pushes modules out from a control station to the managed hosts.)
-* **Parse the docstrings of Ansible modules to see example syntax and the parameters modules require:** ```linux-VM$ ansible-docs```
-* **Create or download roles from the Ansible community:** ```linux-VM$ ansible-galaxy``` Ansible Galaxy is a public repository of Ansible playbooks grouped into roles from the community. Roles provide a method to package Ansible playbooks for re-use.
+* **Run a Playbook:**  
+```
+linux-VM$ ansible-playbook
+```
+* **Encrypt sensitive data:**
+```
+linux-VM$ ansible-vault
+```
+If a playbook requires access to data that engineers do not want to expose in plain text, the ansible-vault tool can be used to create an encrypted YAML file containing the sensitive data. When data needs to be accessed, a password is provided.
+* **Pull modules from centralized server:**
+```
+linux-VM$ ansible-pull
+```
+(Normally, Ansible pushes modules out from a control station to the managed hosts.)
+* **Parse the docstrings of Ansible modules to see example syntax and the parameters modules require:**
+```
+linux-VM$ ansible-docs
+```
+* **Create or download roles from the Ansible community:**
+```
+linux-VM$ ansible-galaxy
+```
+Ansible Galaxy is a public repository of Ansible playbooks grouped into roles from the community. Roles provide a method to package Ansible playbooks for re-use.
