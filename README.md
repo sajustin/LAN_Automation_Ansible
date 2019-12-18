@@ -9,10 +9,10 @@ This repository contains some basic Ansible playbooks to start your automation j
 A workstation running Linux or OSX. Although it can be used to manage Windows, Ansible does not run on Windows as the control station.
 
 ### Components
-* Modules are typically written in Python. They are typically copied to remote hosts and run by the Ansible tool. Ansible modules are referenced as tasks in Ansible playbooks or using CLI arguments in the Ansible ad-hoc CLI tool. - native IOS modules that are included in Ansible 2.5 and later to interact with IOS XE:  https://docs.ansible.com/ansible/latest/modules/list_of_network_modules.html#ios
-* Inventory files file that contain an inventory of the hosts to manage. When executing Ansible, it will look at the config file and command line to determine which inventory file to use for that run. Subsequent runs can leverage different inventory files, allowing users to break large infrastructure environments into smaller batches easily.
-* Playbooks are written in YAML and contain Ansible domain-specific language (DSL). To enable reuse, playbooks can be modularized much like software. Variables containing data for playbooks can be separated into YAML files residing on the Ansible control machine.
-* Configuration files control how the tool runs. For example, the configuration file can change the default directories of the modules.
+* **Modules**: are typically written in Python. They are typically copied to remote hosts and run by the Ansible tool. Ansible modules are referenced as tasks in Ansible playbooks or using CLI arguments in the Ansible ad-hoc CLI tool. - native IOS modules that are included in Ansible 2.5 and later to interact with IOS XE:  https://docs.ansible.com/ansible/latest/modules/list_of_network_modules.html#ios
+* **Inventory files**: file that contain an inventory of the hosts to manage. When executing Ansible, it will look at the config file and command line to determine which inventory file to use for that run. Subsequent runs can leverage different inventory files, allowing users to break large infrastructure environments into smaller batches easily.
+* **Playbooks**: are written in YAML and contain Ansible domain-specific language (DSL). To enable reuse, playbooks can be modularized much like software. Variables containing data for playbooks can be separated into YAML files residing on the Ansible control machine.
+* **Configuration files**: control how the tool runs. For example, the configuration file can change the default directories of the modules.
 
 ### Using Ansible
 
